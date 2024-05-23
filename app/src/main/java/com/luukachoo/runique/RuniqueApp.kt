@@ -3,6 +3,7 @@ package com.luukachoo.runique
 import android.app.Application
 import com.luukachoo.auth.data.di.authDataModule
 import com.luukachoo.auth.presentation.di.authViewModelModule
+import com.luukachoo.core.data.di.coreDataModule
 import com.luukachoo.runique.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,7 +23,8 @@ class RuniqueApp : Application() {
             modules(
                 appModule,
                 authDataModule,
-                authViewModelModule
+                authViewModelModule,
+                coreDataModule
             )
         }
     }
