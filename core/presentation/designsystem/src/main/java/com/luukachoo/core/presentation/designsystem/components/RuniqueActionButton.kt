@@ -59,7 +59,8 @@ fun RuniqueActionButton(
             Text(
                 text = text,
                 modifier = Modifier.alpha(if (isLoading) 0f else 1f),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
     }

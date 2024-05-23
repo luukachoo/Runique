@@ -68,7 +68,7 @@ fun RegisterScreen(
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .padding(vertical = 32.dp)
+                .padding(vertical = 40.dp)
                 .padding(top = 16.dp)
         ) {
             Text(

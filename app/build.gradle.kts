@@ -50,6 +50,9 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
 
+    // Koin
+    implementation(libs.bundles.koin)
+
     // Location
     implementation(libs.google.android.gms.play.services.location)
 
