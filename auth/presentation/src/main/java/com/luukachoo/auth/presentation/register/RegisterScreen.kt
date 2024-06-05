@@ -32,6 +32,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.luukachoo.auth.domain.PasswordValidationState
 import com.luukachoo.auth.domain.UserDataValidator
 import com.luukachoo.auth.presentation.R
 import com.luukachoo.core.presentation.designsystem.CheckIcon
@@ -53,26 +54,23 @@ import org.koin.androidx.compose.koinViewModel
 fun RegisterScreenRoot(
     onSignInClick: () -> Unit,
     onSuccessfulRegistration: () -> Unit,
-    viewModel: RegisterViewModel = koinViewModel()
+    viewModel: RegisterViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
-
-
     ObserveAsEvents(viewModel.events) { event ->
-        when (event) {
+        when(event) {
             is RegisterEvent.Error -> {
                 keyboardController?.hide()
-                Toast.makeText (
+                Toast.makeText(
                     context,
                     event.error.asString(context),
                     Toast.LENGTH_LONG
                 ).show()
             }
-
             RegisterEvent.RegistrationSuccess -> {
                 keyboardController?.hide()
-                Toast.makeText (
+                Toast.makeText(
                     context,
                     R.string.registration_successful,
                     Toast.LENGTH_LONG
@@ -84,17 +82,12 @@ fun RegisterScreenRoot(
 
     RegisterScreen(
         state = viewModel.state,
-        onAction = { action ->
-            when(action) {
-                RegisterAction.OnLoginClick -> onSignInClick()
-                else -> Unit
-            }
-        }
+        onAction = viewModel::onAction
     )
 }
 
 @Composable
-fun RegisterScreen(
+private fun RegisterScreen(
     state: RegisterState,
     onAction: (RegisterAction) -> Unit
 ) {
@@ -134,7 +127,6 @@ fun RegisterScreen(
                     }
                 }
             }
-
             ClickableText(
                 text = annotatedString,
                 onClick = { offset ->
@@ -148,7 +140,7 @@ fun RegisterScreen(
                 }
             )
 
-            Spacer(Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             RuniqueTextField(
                 state = state.email,
@@ -163,7 +155,7 @@ fun RegisterScreen(
                 keyboardType = KeyboardType.Email
             )
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             RuniquePasswordTextField(
                 state = state.password,
@@ -176,7 +168,7 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             PasswordRequirement(
                 text = stringResource(
@@ -186,35 +178,39 @@ fun RegisterScreen(
                 isValid = state.passwordValidationState.hasMinLength
             )
 
-            Spacer(Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             PasswordRequirement(
-                text = stringResource(id = R.string.at_least_one_number),
+                text = stringResource(
+                    id = R.string.at_least_one_number,
+                ),
                 isValid = state.passwordValidationState.hasNumber
             )
 
-            Spacer(Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             PasswordRequirement(
-                text = stringResource(id = R.string.contains_lowercase_character),
+                text = stringResource(
+                    id = R.string.contains_lowercase_character,
+                ),
                 isValid = state.passwordValidationState.hasLowerCaseCharacter
             )
-
-            Spacer(Modifier.height(4.dp))
-
+            Spacer(modifier = Modifier.height(4.dp))
             PasswordRequirement(
-                text = stringResource(id = R.string.contains_uppercase_character),
+                text = stringResource(
+                    id = R.string.contains_uppercase_character,
+                ),
                 isValid = state.passwordValidationState.hasUpperCaseCharacter
             )
-
-            Spacer(Modifier.height(32.dp))
-
+            Spacer(modifier = Modifier.height(32.dp))
             RuniqueActionButton(
                 text = stringResource(id = R.string.register),
                 isLoading = state.isRegistering,
                 enabled = state.canRegister,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onAction(RegisterAction.OnRegisterClick) }
+                onClick = {
+                    onAction(RegisterAction.OnRegisterClick)
+                }
             )
         }
     }
@@ -231,9 +227,13 @@ fun PasswordRequirement(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = if (isValid) CheckIcon else CrossIcon,
+            imageVector = if (isValid) {
+                CheckIcon
+            } else {
+                CrossIcon
+            },
             contentDescription = null,
-            tint = if (isValid) RuniqueGreen else RuniqueDarkRed
+            tint = if(isValid) RuniqueGreen else RuniqueDarkRed
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -249,7 +249,11 @@ fun PasswordRequirement(
 private fun RegisterScreenPreview() {
     RuniqueTheme {
         RegisterScreen(
-            state = RegisterState(),
+            state = RegisterState(
+                passwordValidationState = PasswordValidationState(
+                    hasNumber = true,
+                )
+            ),
             onAction = {}
         )
     }
