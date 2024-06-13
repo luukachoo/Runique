@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import com.luukachoo.auth.presentation.intro.IntroScreenRoot
 import com.luukachoo.auth.presentation.login.LoginScreenRoot
 import com.luukachoo.auth.presentation.register.RegisterScreenRoot
+import com.luukachoo.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -81,7 +82,7 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run"
     ) {
         composable(route = "run_overview") {
-            Text(text = "Run overvierw")
+            RunOverviewScreenRoot()
         }
     }
 }
