@@ -33,6 +33,7 @@ import com.luukachoo.core.presentation.designsystem.components.RuniqueScaffold
 import com.luukachoo.core.presentation.designsystem.components.RuniqueToolbar
 import com.luukachoo.run.presentation.R
 import com.luukachoo.run.presentation.active_run.components.RunDataCard
+import com.luukachoo.run.presentation.active_run.maps.TrackerMap
 import com.luukachoo.run.presentation.util.hasLocationPermission
 import com.luukachoo.run.presentation.util.hasNotificationPermission
 import com.luukachoo.run.presentation.util.shouldShowLocationPermissionRationale
@@ -135,6 +136,13 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = {},
+                modifier = Modifier.fillMaxSize()
+            )
             RunDataCard(
                 modifier = Modifier
                     .padding(16.dp)
