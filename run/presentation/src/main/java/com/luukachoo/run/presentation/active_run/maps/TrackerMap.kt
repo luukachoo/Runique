@@ -25,6 +25,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerComposable
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.luukachoo.core.domain.location.Location
@@ -74,6 +75,9 @@ fun TrackerMap(
         properties = MapProperties(mapStyleOptions = mapStyle),
         uiSettings = MapUiSettings(zoomControlsEnabled = false),
     ) {
+
+        RuniquePolylines(locations = locations)
+
         if (!isRunFinished && currentLocation != null) {
             MarkerComposable(
                 currentLocation,
