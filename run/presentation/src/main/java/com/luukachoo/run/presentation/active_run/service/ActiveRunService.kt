@@ -93,7 +93,7 @@ class ActiveRunService : Service() {
             val channel = android.app.NotificationChannel(
                 CHANNEL_ID,
                 getString(com.luukachoo.run.presentation.R.string.active_run),
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_MIN
             )
             notificationManager.createNotificationChannel(channel)
         }
