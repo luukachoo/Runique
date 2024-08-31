@@ -4,6 +4,7 @@ import android.app.Application
 import com.luukachoo.auth.data.di.authDataModule
 import com.luukachoo.auth.presentation.di.authViewModelModule
 import com.luukachoo.core.data.di.coreDataModule
+import com.luukachoo.core.database.di.databaseModule
 import com.luukachoo.run.location.di.locationModule
 import com.luukachoo.run.presentation.di.runPresentationModule
 import com.luukachoo.runique.di.appModule
@@ -15,7 +16,6 @@ import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class RuniqueApp : Application() {
-
 
     val applicationScope = CoroutineScope(SupervisorJob())
 
@@ -34,7 +34,8 @@ class RuniqueApp : Application() {
                 authViewModelModule,
                 coreDataModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule
             )
         }
     }
