@@ -303,7 +303,7 @@ private fun RunListItemPreview() {
             runUi = Run(
                 id = "999",
                 duration = 10.minutes + 24.seconds,
-                dataTimeUTC = ZonedDateTime.now(),
+                dateTimeUTC = ZonedDateTime.now(),
                 distanceMeters = 1000,
                 location = Location(0.0, 0.0),
                 maxSpeedKmh = 10.0,

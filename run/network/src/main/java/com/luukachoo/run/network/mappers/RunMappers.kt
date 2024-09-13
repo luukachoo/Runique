@@ -10,7 +10,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 fun RunDto.toRunModel() = Run(
     id = id,
-    dataTimeUTC = Instant.parse(dataTimeUtc).atZone(ZoneId.of("UTC")),
+    dateTimeUTC = Instant.parse(dataTimeUtc).atZone(ZoneId.of("UTC")),
     duration = durationMillis.milliseconds,
     distanceMeters = distanceMeters,
     location = Location(
@@ -31,5 +31,5 @@ fun Run.toCreateRunRequest() = CreateRunRequest(
     avgSpeedKmh = averageSpeedInKmh,
     maxSpeedKmh = maxSpeedKmh,
     totalElevationMeters = totalElevationMeters,
-    epochMillis = dataTimeUTC.toEpochSecond() * 1000L
+    epochMillis = dateTimeUTC.toEpochSecond() * 1000L
 )

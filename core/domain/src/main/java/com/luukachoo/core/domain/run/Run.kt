@@ -8,7 +8,7 @@ import kotlin.time.DurationUnit
 data class Run(
     val id: String?, // This will be null, if we'll start a new run.
     val duration: Duration,
-    val dataTimeUTC: ZonedDateTime,
+    val dateTimeUTC: ZonedDateTime,
     val distanceMeters: Int,
     val location: Location,
     val maxSpeedKmh: Double,

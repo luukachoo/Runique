@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.zip
 import kotlin.math.roundToInt
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.seconds
 
 class RunningTracker(
@@ -52,6 +53,13 @@ class RunningTracker(
     fun startObservingLocation() { isObservingLocation.value = true }
 
     fun stopObservingLocation() { isObservingLocation.value = false }
+
+    fun finishRun() {
+        stopObservingLocation()
+        setIsTracking(false)
+        _elapsedTime.value = ZERO
+        _runData.value = RunData()
+    }
 
     init {
         _isTracking
