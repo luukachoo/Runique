@@ -1,5 +1,6 @@
 package com.luukachoo.core.database
 
+import android.database.sqlite.SQLiteFullException
 import com.luukachoo.core.database.dao.RunDao
 import com.luukachoo.core.database.mappers.toRunEntity
 import com.luukachoo.core.database.mappers.toRunModel
@@ -23,9 +24,12 @@ class RoomLocalRunDataSource(
     }
 
     override suspend fun upsertRun(run: Run): Result<RunId, DataError.Local> {
-        return runCachingError {
-            runDao.upsertRun(run.toRunEntity())
-            run.id!!
+        return try {
+            val entity = run.toRunEntity()
+            runDao.upsertRun(entity)
+            Result.Success(entity.id)
+        } catch (e: SQLiteFullException) {
+            Result.Error(DataError.Local.DISK_FULL)
         }
     }
 

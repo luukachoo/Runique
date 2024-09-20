@@ -6,6 +6,7 @@ import com.luukachoo.auth.presentation.di.authViewModelModule
 import com.luukachoo.core.data.di.coreDataModule
 import com.luukachoo.core.database.di.databaseModule
 import com.luukachoo.run.location.di.locationModule
+import com.luukachoo.run.network.di.networkModule
 import com.luukachoo.run.presentation.di.runPresentationModule
 import com.luukachoo.runique.di.appModule
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +36,8 @@ class RuniqueApp : Application() {
                 coreDataModule,
                 runPresentationModule,
                 locationModule,
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }

@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -33,6 +34,7 @@ import com.luukachoo.core.presentation.designsystem.components.RuniqueFloatingAc
 import com.luukachoo.core.presentation.designsystem.components.RuniqueOutlinedActionButton
 import com.luukachoo.core.presentation.designsystem.components.RuniqueScaffold
 import com.luukachoo.core.presentation.designsystem.components.RuniqueToolbar
+import com.luukachoo.core.presentation.ui.ObserveAsEvents
 import com.luukachoo.run.presentation.R
 import com.luukachoo.run.presentation.active_run.components.RunDataCard
 import com.luukachoo.run.presentation.active_run.maps.TrackerMap
@@ -46,13 +48,37 @@ import java.io.ByteArrayOutputStream
 
 @Composable
 fun ActiveRunScreenRoot(
+    onFinish: () -> Unit,
+    onBack: () -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel(),
     onServiceToggle: (isServiceRunning: Boolean) -> Unit
 ) {
+
+    val context = LocalContext.current
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when (event) {
+            is ActiveRunEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            ActiveRunEvent.RunSaved -> onFinish()
+        }
+    }
+
     ActiveRunScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction,
-        onServiceToggle = onServiceToggle
+        onServiceToggle = onServiceToggle,
+        onAction = { action ->
+            when(action) {
+                is ActiveRunAction.OnBackClick -> if (!viewModel.state.hasStartedRunning) onBack()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 

@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.luukachoo.core.domain.location.Location
 import com.luukachoo.core.domain.run.Run
+import com.luukachoo.core.domain.run.RunRepository
+import com.luukachoo.core.domain.util.Result
+import com.luukachoo.core.presentation.ui.asUiText
 import com.luukachoo.run.domain.LocationDataCalculator
 import com.luukachoo.run.domain.RunningTracker
 import com.luukachoo.run.presentation.active_run.service.ActiveRunService
@@ -20,12 +23,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import okhttp3.internal.UTC
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class ActiveRunViewModel(
-    private val runningTracker: RunningTracker
+    private val runningTracker: RunningTracker,
+    private val runRepository: RunRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(
@@ -143,6 +146,14 @@ class ActiveRunViewModel(
             )
 
             runningTracker.finishRun()
+
+            when (
+                val result = runRepository.upsertRun(run, mapPictureBytes)
+            ) {
+                is Result.Success -> eventChannel.send(ActiveRunEvent.RunSaved)
+                is Result.Error -> eventChannel.send(ActiveRunEvent.Error(result.error.asUiText()))
+            }
+
             state = state.copy(isSavingRun = false)
         }
     }
