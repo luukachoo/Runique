@@ -42,5 +42,4 @@ class RunOverviewViewModel(
             else -> Unit
         }
     }
-
 }
