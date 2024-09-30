@@ -1,7 +1,9 @@
 package com.luukachoo.core.data.run
 
+import com.luukachoo.core.data.networking.get
 import com.luukachoo.core.database.dao.RunPendingSyncDao
 import com.luukachoo.core.database.mappers.toRunModel
+import com.luukachoo.core.domain.AuthInfo
 import com.luukachoo.core.domain.SessionStorage
 import com.luukachoo.core.domain.run.LocalRunDataSource
 import com.luukachoo.core.domain.run.RemoteRunDataSource
@@ -12,11 +14,16 @@ import com.luukachoo.core.domain.util.DataError
 import com.luukachoo.core.domain.util.EmptyResult
 import com.luukachoo.core.domain.util.Result
 import com.luukachoo.core.domain.util.asEmptyDataResult
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
+import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
 
 class OfflineFirstRunRepository(
@@ -24,7 +31,8 @@ class OfflineFirstRunRepository(
     private val remoteRunDataSource: RemoteRunDataSource,
     private val applicationScope: CoroutineScope,
     private val runPendingSyncDao: RunPendingSyncDao,
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
+    private val client: HttpClient
 ) : RunRepository {
     override fun getRuns(): Flow<List<Run>> = localRunDataSource.getRuns()
 
@@ -117,4 +125,18 @@ class OfflineFirstRunRepository(
             deleteJobs.forEach { it.join() }
         }
     }
+
+    override suspend fun logout(): EmptyResult<DataError.Network> {
+        val result = client.get<Unit>(
+            route = "/logout"
+        ).asEmptyDataResult()
+
+        client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>()
+            .firstOrNull()
+            ?.clearToken()
+
+        return result
+    }
+
+    override suspend fun deleteAllRuns() = localRunDataSource.deleteAllRuns()
 }
