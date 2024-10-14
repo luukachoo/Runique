@@ -1,27 +1,27 @@
 [versions]
 agp = "8.5.2"
-kotlin = "2.0.0"
+kotlin = "2.0.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.4"
-activityCompose = "1.9.1"
-composeBom = "2024.06.00"
+lifecycleRuntimeKtx = "2.8.6"
+activityCompose = "1.9.2"
+composeBom = "2024.09.03"
 appcompat = "1.7.0"
 material = "1.12.0"
-jetbrainsKotlinJvm = "1.9.22"
-androidTools = "31.5.2"
+jetbrainsKotlinJvm = "2.0.20"
+androidTools = "31.7.0"
 core = "1.10.3"
 playCore = "1.10.3"
 coreSplashscreen = "1.0.1"
 coilCompose = "2.6.0"
-desugar_jdk_libs = "2.0.4"
+desugar_jdk_libs = "2.1.2"
 ktor = "2.3.8"
 ktorClientLogging = "2.3.8"
 koin = "3.5.3"
-materialIconsExtended = "1.6.8"
-navigationCompose = "2.7.7"
+materialIconsExtended = "1.7.3"
+navigationCompose = "2.8.2"
 securityCryptoKtx = "1.1.0-alpha06"
 timber = "5.0.1"
 ksp = "2.0.0-1.0.22"
@@ -36,6 +36,14 @@ kotlinx-serialization = "1.6.3"
 secretsPlugin = "2.0.1"
 playServicesMaps = "19.0.0"
 annotation = "1.8.2"
+junit5 = "5.10.1"
+junit5-plugin = "1.10.0.0"
+junit5-compose = "1.4.0"
+mockk = "1.13.11"
+assertk = "0.28.1"
+turbine = "0.7.0"
+composeUiTestManifest = "1.7.3"
+coroutines-test = "1.8.1"
 
 # Project versions
 projectApplicationId = "com.luukachoo.runique"
@@ -58,7 +66,7 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "composeUiTestManifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -98,6 +106,18 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
+# Test dependencies
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
+junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit5" }
+junit5-android-test-compose = { module = "de.mannodermaus.junit5:android-test-compose", version.ref = "junit5-compose" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+
+
 # Gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
@@ -116,6 +136,7 @@ room = { id = "androidx.room", version.ref = "room" }
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" }
 
 runique-android-application = { id = "runique.android.application", version = "unspecified" }
 runique-android-application-compose = { id = "runique.android.application.compose", version = "unspecified" }
@@ -123,9 +144,11 @@ runique-android-library = { id = "runique.android.library", version = "unspecifi
 runique-android-library-compose = { id = "runique.android.library.compose", version = "unspecified" }
 runique-android-feature-ui = { id = "runique.android.feature.ui", version = "unspecified" }
 runique-android-room = { id = "runique.android.room", version = "unspecified" }
+runique-android-dynamic-feature = { id = "runique.android.dynamic.feature", version = "unspecified" }
 runique-jvm-library = { id = "runique.jvm.library", version = "unspecified" }
 runique-jvm-ktor = { id = "runique.jvm.ktor", version = "unspecified" }
-
+runique-jvm-junit5 = { id = "runique.jvm.junit5", version = "unspecified" }
+runique-android-junit5 = { id = "runique.android.junit5", version = "unspecified" }
 
 [bundles]
 compose = [
